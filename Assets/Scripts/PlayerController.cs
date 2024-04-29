@@ -16,14 +16,14 @@ namespace Platformer
         [SerializeField] CinemachineFreeLook freeLookVCam;
         [SerializeField] GroundChecker groundChecker;
         [SerializeField] InputReader input;
-        [SerializeField] Rigidbody rb;
+        public Rigidbody rb;
         [SerializeField] TargetManager targetManager;
         [SerializeField] GameObject shieldPrefab;
 
-        [Header("Movement Settings")]
-        [SerializeField] float moveSpeed = 5f;
-        [SerializeField] float rotationSpeed = 15f;
-        [SerializeField] float smoothTime = 0.2f;
+        [field: Header("Movement Settings")]
+        [field: SerializeField] public float MoveSpeed { get; private set; } = 300f;
+        [field: SerializeField] public float RotationSpeed { get; private set; } = 15f;
+        [field: SerializeField] public float SmoothTime { get; private set; } = 0.2f;
 
         [Header("Jump Settings")]
         [SerializeField] float jumpForce = 10f;
@@ -39,18 +39,14 @@ namespace Platformer
         [Header("Shield Settings")]
         [SerializeField] float shieldDuration = 2f;
         [SerializeField] float shieldCooldown = 3f;
-
+         bool hasShield = false;
         const float ZeroF = 0f;
 
         Transform mainCam;
-        float currentSpeed;
+        public float CurrentSpeed { get; set; }
+        public float DashVelocity { get; set; } = 1f;
         float velocity;
         float jumpVelocity;
-
-        float dashVelocity = 1.0f;
-        Vector3 movement;
-
-        bool hasShield = false;
 
         GameObject shieldObject;
         List<Utilities.Timer> timers;
@@ -61,52 +57,36 @@ namespace Platformer
         CountdownTimer shieldTimer;
         CountdownTimer shieldCooldownTimer;
 
-
         StateMachine stateMachine;
 
         protected static readonly int ShieldHash = Animator.StringToHash("Shield");
         protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
         protected const float crossFadeDuration = 0.1f;
+        PlayerMovement playerMovement;
+        private Vector3 movement;
+
         private void Awake()
         {
-            targetManager.AddTarget(gameObject);
+            CameraSetup();
+            rb.freezeRotation = true;
+            TimerSetup();
+            StateSetup();
+            playerMovement = new PlayerMovement(this);
+        }
+
+     
+        void CameraSetup()
+        {
             mainCam = Camera.main.transform;
             freeLookVCam.Follow = transform;
             freeLookVCam.LookAt = transform;
             freeLookVCam.OnTargetObjectWarped(transform, transform.position - freeLookVCam.transform.position - Vector3.forward);
-            rb.freezeRotation = true;
-
-            jumpTimer = new CountdownTimer(jumpDuration);
-            jumpCooldownTimer = new CountdownTimer(jumpCooldown);
-
-            jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
-            jumpTimer.OnTimerStop += () => jumpCooldownTimer.Start();
-
-            dashTimer = new CountdownTimer(dashDuration);
-            dashCooldownTimer = new CountdownTimer(dashCooldown);
-
-            dashTimer.OnTimerStart += () => dashVelocity = dashForce;
-            dashTimer.OnTimerStop += () =>
-            {
-                dashVelocity = 1.0f;
-                dashCooldownTimer.Start();
-            };
-
-            shieldTimer = new CountdownTimer(shieldDuration);
-            shieldCooldownTimer = new CountdownTimer(shieldCooldown);
-
-            shieldTimer.OnTimerStart += () => hasShield = true;
-            shieldTimer.OnTimerStop += () =>
-            {
-                hasShield = false;
-                shieldCooldownTimer.Start(); 
-                
-            };
-
-            timers = new List<Utilities.Timer>(capacity: 6) { jumpTimer, jumpCooldownTimer, dashTimer, dashCooldownTimer, shieldTimer, shieldCooldownTimer };
+        }
+        void StateSetup()
+        {
             stateMachine = new StateMachine();
-            
-            
+
+
             var locomotionState = new LocomotionState(this, animator);
             var jumpState = new JumpState(this, animator);
             var dashState = new DashState(this, animator);
@@ -117,14 +97,45 @@ namespace Platformer
             stateMachine.AddAnyTransition(locomotionState, new FuncPredicate(() => groundChecker.IsGrounded && !jumpTimer.IsRunning && !dashTimer.IsRunning));
             stateMachine.SetState(locomotionState);
         }
+        void TimerSetup()
+        {
+            jumpTimer = new CountdownTimer(jumpDuration);
+            jumpCooldownTimer = new CountdownTimer(jumpCooldown);
 
-        //void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
-        //void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
+            jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
+            jumpTimer.OnTimerStop += () => jumpCooldownTimer.Start();
 
+            dashTimer = new CountdownTimer(dashDuration);
+            dashCooldownTimer = new CountdownTimer(dashCooldown);
+
+            dashTimer.OnTimerStart += () => DashVelocity = dashForce;
+            dashTimer.OnTimerStop += () =>
+            {
+                DashVelocity = 1.0f;
+                dashCooldownTimer.Start();
+            };
+
+            shieldTimer = new CountdownTimer(shieldDuration);
+            shieldCooldownTimer = new CountdownTimer(shieldCooldown);
+
+            shieldTimer.OnTimerStart += () => hasShield = true;
+            shieldTimer.OnTimerStop += () =>
+            {
+                hasShield = false;
+                shieldCooldownTimer.Start();
+
+            };
+
+            timers = new List<Utilities.Timer>(capacity: 6) { jumpTimer, jumpCooldownTimer, dashTimer, dashCooldownTimer, shieldTimer, shieldCooldownTimer };
+        }
         private void Start()
         {
 
             input.EnablePlayerActions();
+            EventBus<AddTarget>.Raise(new AddTarget()
+            {
+                target = this.gameObject
+            });
 
         }
         void OnTriggerEnter(Collider other)
@@ -133,15 +144,19 @@ namespace Platformer
             if (other.gameObject.tag != "Ball") return;
             if (!hasShield)
             {
-                targetManager.RemoveTarget(gameObject);
+                EventBus<RemoveTarget>.Raise(new RemoveTarget()
+                {
+                    target = this.gameObject
+                });
                 Destroy(gameObject);
-            }else
+            }
+            else
             {
                 animator.CrossFade(ShieldHash, crossFadeDuration);
-              
+
                 StartCoroutine("OnCompleteAttackAnimation");
             }
-            targetManager.ChooseTarget();
+            EventBus<ChooseTarget>.Raise(new ChooseTarget());
         }
         IEnumerator OnCompleteAttackAnimation()
         {
@@ -165,7 +180,7 @@ namespace Platformer
         {
             if (!shieldTimer.IsRunning && !shieldCooldownTimer.IsRunning)
             {
-                
+
                 shieldTimer.Start();
                 shieldObject = Instantiate(shieldPrefab, transform.position + new Vector3(0, 1, 0), transform.rotation);
                 shieldObject.transform.parent = transform;
@@ -207,7 +222,7 @@ namespace Platformer
         }
         private void UpdateAnimator()
         {
-            animator.SetFloat("Speed", currentSpeed);
+            animator.SetFloat("Speed", CurrentSpeed);
         }
         private void HandleTimer()
         {
@@ -228,40 +243,15 @@ namespace Platformer
             {
                 jumpVelocity += Physics.gravity.y * gravityMultiplier * Time.fixedDeltaTime;
             }
-            
+
             rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
         }
         public void HandleMovement()
         {
             Vector3 adjustedDirection = Quaternion.AngleAxis(mainCam.eulerAngles.y, Vector3.up) * movement;
-            if (adjustedDirection.magnitude > ZeroF)
-            {
-                HandleRotation(adjustedDirection);
-                HandleHorizantalMovement(adjustedDirection);
-                SmoothSpeed(adjustedDirection.magnitude);
-            }
-            else
-            {
-                SmoothSpeed(ZeroF);
-                rb.velocity = new Vector3(ZeroF, rb.velocity.y, ZeroF);
-            }
+            playerMovement.HandleMovement(adjustedDirection);
         }
-        private void SmoothSpeed(float value)
-        {
-            currentSpeed = Mathf.SmoothDamp(currentSpeed, value, ref velocity, smoothTime);
-        }
-        private void HandleHorizantalMovement(Vector3 adjustedDirection)
-        {
-            Vector3 velocity = adjustedDirection * (moveSpeed * dashVelocity * Time.fixedDeltaTime);
-            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
 
-        }
-        private void HandleRotation(Vector3 adjustedDirection)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(adjustedDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            //transform.LookAt(transform.position + adjustedDirection);
-        }
     }
 }
 

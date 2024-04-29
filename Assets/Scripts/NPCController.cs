@@ -17,44 +17,45 @@ namespace Platformer
         [SerializeField] Transform patrolPath;
         [SerializeField] TargetManager targetManager;
 
-        [Header("Movement Settings")]
+        [Header("Settings")]
         [SerializeField] float moveSpeed = 5f;
        
         [SerializeField] float smoothTime = 0.2f;
         [SerializeField] float distanceOffset = 3f;
         [SerializeField] float rotationSmoothness = 0.2f;
+        [SerializeField] float parryChance = .7f;
         float currentSpeed;
         float velocity;
         int currentIndex = 0;
         Transform currentWaypoint;
         List<Transform> waypoints = new List<Transform>();
-
-        private void Awake()
-        {
-            targetManager.AddTarget(gameObject);
-        }
+      
         private void Start()
         {
-
+            EventBus<AddTarget>.Raise(new AddTarget()
+            {
+                target = this.gameObject
+            });
             foreach (Transform t in patrolPath)
             {
                 waypoints.Add(t);
             }
             currentWaypoint = waypoints[currentIndex];
-
-
         }
         void OnTriggerEnter(Collider other)
         {
             if (targetManager.LastTarget != gameObject) return;
             if (other.gameObject.tag != "Ball") return;
 
-            if (UnityEngine.Random.Range(0f, 1f) < .5)
+            if (UnityEngine.Random.Range(0f, 1f) > parryChance)
             {
-                targetManager.RemoveTarget(gameObject);
+                EventBus<RemoveTarget>.Raise(new RemoveTarget()
+                {
+                    target = this.gameObject
+                });
                 Destroy(gameObject);
             }
-            targetManager.ChooseTarget();
+            EventBus<ChooseTarget>.Raise(new ChooseTarget());
 
         }
         private void FixedUpdate()
@@ -98,7 +99,6 @@ namespace Platformer
             currentWaypoint = waypoints[currentIndex];
 
         }
-
         private bool IsReachedTarget()
         {
             if (Vector3.Magnitude(transform.position - currentWaypoint.position) < distanceOffset)

@@ -158,6 +158,9 @@ MonoBehaviour:
   ResetBall:
     m_PersistentCalls:
       m_Calls: []
+  TargetChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &11805168
 Transform:
   m_ObjectHideFlags: 0
@@ -288,6 +291,10 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
+    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
+      propertyPath: parryChance
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
       propertyPath: ballBehavior
       value: 
@@ -455,6 +462,10 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
+    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
+      propertyPath: parryChance
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
       propertyPath: ballBehavior
       value: 
@@ -757,6 +768,10 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
+    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
+      propertyPath: parryChance
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
       propertyPath: ballBehavior
       value: 
@@ -2021,10 +2036,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2082211996}
   targetManager: {fileID: 11805167}
+  meshRenderer: {fileID: 877374820}
   acceleration: 0.01
-  maxSpeed: 40
-  rotationSmoothness: 0.2
-  baseSpeed: 8.51
+  rotationSmoothness: 0.83
+  baseSpeed: 5
+  speedFactor: 1
 --- !u!1001 &6380075228567775032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2086,6 +2102,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
     - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
+      propertyPath: parryChance
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
       propertyPath: ballBehavior
       value: 
       objectReference: {fileID: 2082211998}
@@ -2146,9 +2166,25 @@ PrefabInstance:
       propertyPath: gravityMultiplier
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: <MoveSpeed>k__BackingField
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: <moveSpeed>k__BackingField
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: <SmoothTime>k__BackingField
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2609234896105429758, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261850142876723932, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7787652945596227493, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: m_LocalPosition.x
