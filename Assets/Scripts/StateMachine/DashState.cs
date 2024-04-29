@@ -6,14 +6,12 @@ namespace Platformer
 {
     public class DashState : BaseState
     {
-        public DashState(PlayerController player, Animator animator) : base(player, animator) {        
+        public DashState(PlayerController player) : base(player) {        
         }
 
-        private int DashHash = Animator.StringToHash("Dash");
-        protected const float crossFadeDuration = 0.1f;
         public override void OnEnter()
         {
-            animator.CrossFade(DashHash, crossFadeDuration);
+            player.animController.PlayAnimation("Dash");
         }
         public override void FixedUpdate()
         {

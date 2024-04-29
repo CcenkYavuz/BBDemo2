@@ -2037,10 +2037,11 @@ MonoBehaviour:
   rb: {fileID: 2082211996}
   targetManager: {fileID: 11805167}
   meshRenderer: {fileID: 877374820}
-  acceleration: 0.01
-  rotationSmoothness: 0.83
-  baseSpeed: 5
-  speedFactor: 1
+  trailRenderer: {fileID: 2082211994}
+  acceleration: 0.05
+  rotationSmoothness: 0.9
+  baseSpeed: 10
+  speedFactor: 2
 --- !u!1001 &6380075228567775032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2094,22 +2095,6 @@ PrefabInstance:
       value: MaleCharacterPBR
       objectReference: {fileID: 0}
     - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
-      propertyPath: PatrolPath
-      value: 
-      objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
-    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
-      propertyPath: patrolPath
-      value: 
-      objectReference: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
-    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
-      propertyPath: parryChance
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
-      propertyPath: ballBehavior
-      value: 
-      objectReference: {fileID: 2082211998}
-    - target: {fileID: 7996896043394501195, guid: b4de7e246f578d247adfe5d1522700a2, type: 3}
       propertyPath: targetManager
       value: 
       objectReference: {fileID: 11805167}
@@ -2159,8 +2144,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11805167}
     - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: animController
+      value: 
+      objectReference: {fileID: 11400000, guid: dd8e00c5e32c7d042ae1dc3cca152117, type: 2}
+    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: shieldCooldown
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: gravityMultiplier

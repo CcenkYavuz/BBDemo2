@@ -23,7 +23,7 @@ namespace Platformer
         [SerializeField] float smoothTime = 0.2f;
         [SerializeField] float distanceOffset = 3f;
         [SerializeField] float rotationSmoothness = 0.2f;
-        [SerializeField] float parryChance = .7f;
+        [SerializeField] float parryChance = .9f;
         float currentSpeed;
         float velocity;
         int currentIndex = 0;

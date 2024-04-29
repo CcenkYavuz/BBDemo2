@@ -7,6 +7,7 @@ public class BallBehavior : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] TargetManager targetManager;
     [SerializeField] MeshRenderer meshRenderer;
+    [SerializeField] TrailRenderer trailRenderer;
     [Header("Movement Settings")]
     [SerializeField] float acceleration = 0.01f;
     [SerializeField] private float rotationSmoothness = 0.2f;
@@ -37,8 +38,10 @@ public class BallBehavior : MonoBehaviour
         if (targetManager.LastTarget.name == "Player")
         {
             meshRenderer.material.color = Color.red;
+            trailRenderer.material.color = Color.red;
         }else
         {
+            trailRenderer.material.color= defaultColor;
             meshRenderer.material.color = defaultColor;
         }
         baseSpeed += speedFactor;

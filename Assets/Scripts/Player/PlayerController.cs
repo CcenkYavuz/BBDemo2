@@ -19,6 +19,7 @@ namespace Platformer
         public Rigidbody rb;
         [SerializeField] TargetManager targetManager;
         [SerializeField] GameObject shieldPrefab;
+        [SerializeField] public AnimationControllerSO animController;
 
         [field: Header("Movement Settings")]
         [field: SerializeField] public float MoveSpeed { get; private set; } = 300f;
@@ -58,11 +59,8 @@ namespace Platformer
         CountdownTimer shieldCooldownTimer;
 
         StateMachine stateMachine;
+        IMoveable playerMovement;
 
-        protected static readonly int ShieldHash = Animator.StringToHash("Shield");
-        protected static readonly int LocomotionHash = Animator.StringToHash("Locomotion");
-        protected const float crossFadeDuration = 0.1f;
-        PlayerMovement playerMovement;
         private Vector3 movement;
 
         private void Awake()
@@ -72,6 +70,7 @@ namespace Platformer
             TimerSetup();
             StateSetup();
             playerMovement = new PlayerMovement(this);
+            animController.Animator = animator;
         }
 
      
@@ -87,9 +86,9 @@ namespace Platformer
             stateMachine = new StateMachine();
 
 
-            var locomotionState = new LocomotionState(this, animator);
-            var jumpState = new JumpState(this, animator);
-            var dashState = new DashState(this, animator);
+            var locomotionState = new LocomotionState(this);
+            var jumpState = new JumpState(this);
+            var dashState = new DashState(this);
 
             stateMachine.AddTransition(locomotionState, jumpState, new FuncPredicate(() => jumpTimer.IsRunning));
             stateMachine.AddTransition(locomotionState, dashState, new FuncPredicate(() => dashTimer.IsRunning));
@@ -152,16 +151,16 @@ namespace Platformer
             }
             else
             {
-                animator.CrossFade(ShieldHash, crossFadeDuration);
-
+                //animator.CrossFade(ShieldHash, crossFadeDuration);
+                animController.PlayAnimation("Shield");
                 StartCoroutine("OnCompleteAttackAnimation");
             }
             EventBus<ChooseTarget>.Raise(new ChooseTarget());
         }
         IEnumerator OnCompleteAttackAnimation()
         {
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            yield return new WaitForSeconds(.4f);
+            animController.PlayAnimation("Locomotion");
             yield return null;
         }
         private void OnEnable()
@@ -214,15 +213,11 @@ namespace Platformer
             movement = new Vector3(input.Direction.x, 0f, input.Direction.y);
             stateMachine.Update();
             HandleTimer();
-            UpdateAnimator();
+            animController.UpdateAnimator("Speed", CurrentSpeed);
         }
         void FixedUpdate()
         {
             stateMachine.FixUpdate();
-        }
-        private void UpdateAnimator()
-        {
-            animator.SetFloat("Speed", CurrentSpeed);
         }
         private void HandleTimer()
         {

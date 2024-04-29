@@ -6,11 +6,9 @@ namespace Platformer
     public abstract class BaseState : IState
     {
         protected readonly PlayerController player;
-        protected readonly Animator animator;
-        protected BaseState(PlayerController player, Animator animator)
+        protected BaseState(PlayerController player)
         {
             this.player = player;
-            this.animator = animator;
         }
 
         public virtual void OnEnter()
@@ -27,7 +25,6 @@ namespace Platformer
         }
         public virtual void OnExit()
         {
-            Debug.Log("BaseStateExit");
             //throw new System.NotImplementedException();
         }
 

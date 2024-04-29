@@ -5,14 +5,11 @@ namespace Platformer
 {
     public class LocomotionState : BaseState
     {
-        public LocomotionState(PlayerController player, Animator animator) : base(player, animator) { }
+        public LocomotionState(PlayerController player) : base(player) { }
 
-        private int LocomotionHash = Animator.StringToHash("Locomotion");
-        protected const float crossFadeDuration = 0.1f;
         public override void OnEnter()
         {
-            Debug.Log("Locomotion Entered");
-            animator.CrossFade(LocomotionHash, crossFadeDuration);
+            player.animController.PlayAnimation("Locomotion");
         }
         public override void FixedUpdate()
         {

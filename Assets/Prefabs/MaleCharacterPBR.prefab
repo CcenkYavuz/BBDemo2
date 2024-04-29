@@ -1368,12 +1368,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 958211480505473814}
   rb: {fileID: 1386991877073543273}
-  PatrolPath: {fileID: 0}
+  patrolPath: {fileID: 6193843002902156534, guid: 08873df198da3504380f47e5cf13725c, type: 3}
+  targetManager: {fileID: 0}
   moveSpeed: 5
-  rotationSpeed: 15
   smoothTime: 0.2
   distanceOffset: 3
-  ballBehavior: {fileID: 0}
+  rotationSmoothness: 0.2
+  parryChance: 0.9
 --- !u!1 &4636752505704576562
 GameObject:
   m_ObjectHideFlags: 0
