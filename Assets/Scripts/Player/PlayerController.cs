@@ -211,7 +211,16 @@ namespace Platformer
         }
         void Update()
         {
-            movement = new Vector3(input.Direction.x, 0f, input.Direction.y);
+            if (TouchManager.Instance.touchEnabled)
+            {
+                movement = new Vector3(TouchManager.Instance.TouchDirection.x, 0, TouchManager.Instance.TouchDirection.y);
+                
+            }
+            else
+            {
+                movement = new Vector3(input.Direction.x, 0f, input.Direction.y);
+            }
+            
             stateMachine.Update();
             HandleTimer();
             animController.UpdateAnimator("Speed", CurrentSpeed);

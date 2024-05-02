@@ -14,7 +14,7 @@ namespace Platformer
         [SerializeField] CinemachineFreeLook freeLookVCam;
 
         [Header("Settings")]
-        [SerializeField, Range(0.5f, 3f)] float speedMultiplier = 1f;
+        [SerializeField, Range(0.5f, 100f)] float speedMultiplier = 1f;
 
         bool isRMBPressed;
         bool isDeviceMouse;

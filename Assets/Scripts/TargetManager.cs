@@ -66,7 +66,7 @@ namespace Platformer
             if (potentialTargets.Count < 2)
             {
                 GameOver?.Invoke();
-
+                GameManager.Instance.LoadScene("Lobby");
             }
             List<GameObject> filteredTargets = new List<GameObject>();
             foreach (GameObject target in potentialTargets)
