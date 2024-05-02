@@ -7,6 +7,7 @@ namespace Platformer
     public class JumpState : BaseState
     {
         public JumpState(PlayerController player) : base(player) { }
+        public bool isJumping { get; private set; } = false;
         public override void OnEnter()
         {
             player.animController.PlayAnimation("Jump");

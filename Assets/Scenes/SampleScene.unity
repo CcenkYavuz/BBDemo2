@@ -2112,68 +2112,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: jumpForce
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: ballBehavior
+      propertyPath: input
       value: 
-      objectReference: {fileID: 2082211998}
+      objectReference: {fileID: 11400000, guid: 11146c51db1c38f4aa59bdb110ecbd46, type: 2}
+    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: freeLookVCam
       value: 
       objectReference: {fileID: 1238361631}
     - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: jumpCooldown
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: jumpDuration
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: shieldPrefab
-      value: 
-      objectReference: {fileID: 8004742010248660366, guid: 7ae15dc3cf91755429f8528fecc3a026, type: 3}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: rotationSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: targetManager
       value: 
       objectReference: {fileID: 11805167}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: animController
-      value: 
-      objectReference: {fileID: 11400000, guid: dd8e00c5e32c7d042ae1dc3cca152117, type: 2}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: shieldCooldown
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: gravityMultiplier
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: <MoveSpeed>k__BackingField
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: <moveSpeed>k__BackingField
-      value: 0.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 520055752835962887, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: <SmoothTime>k__BackingField
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 2609234896105429758, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4261850142876723932, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7787652945596227493, guid: 57e8a83a69d7e2d44a6ed4c5ffb18a2d, type: 3}
       propertyPath: m_LocalPosition.x

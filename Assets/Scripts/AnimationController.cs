@@ -7,6 +7,7 @@ public class AnimationControllerSO : ScriptableObject
 {
     public Animator Animator { get; set; }
     [SerializeField] List<string> animStates;
+    //[SerializeField] string baseAnimation;
     private Dictionary<string, int> states = new Dictionary<string, int>();
     const float crossFadeDuration = 0.1f;
     private void OnEnable()
@@ -16,6 +17,7 @@ public class AnimationControllerSO : ScriptableObject
     }
     public void PlayAnimation(string state)
     {
+        Debug.Log(Animator);
         Animator.CrossFade(states[state], crossFadeDuration);
     }
 

@@ -828,16 +828,21 @@ MonoBehaviour:
   groundChecker: {fileID: 7856011477495930176}
   input: {fileID: 11400000, guid: 11146c51db1c38f4aa59bdb110ecbd46, type: 2}
   rb: {fileID: 4261850142876723932}
-  moveSpeed: 300
-  rotationSpeed: 300
-  smoothTime: 0.2
-  jumpForce: 10
-  jumpDuration: 0.5
+  targetManager: {fileID: 0}
+  shieldPrefab: {fileID: 8004742010248660366, guid: 7ae15dc3cf91755429f8528fecc3a026, type: 3}
+  animController: {fileID: 11400000, guid: dd8e00c5e32c7d042ae1dc3cca152117, type: 2}
+  <MoveSpeed>k__BackingField: 300
+  <RotationSpeed>k__BackingField: 15
+  <SmoothTime>k__BackingField: 0.2
+  jumpForce: 15
+  jumpDuration: 0.05
   jumpCooldown: 0
-  gravityMultiplier: 3
+  gravityMultiplier: 5
   dashForce: 10
   dashDuration: 1
   dashCooldown: 2
+  shieldDuration: 2
+  shieldCooldown: 0.1
 --- !u!136 &2428590058542389729
 CapsuleCollider:
   m_ObjectHideFlags: 0

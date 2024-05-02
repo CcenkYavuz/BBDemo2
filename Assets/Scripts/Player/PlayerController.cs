@@ -65,12 +65,13 @@ namespace Platformer
 
         private void Awake()
         {
+            animController.Animator = animator;
             CameraSetup();
             rb.freezeRotation = true;
             TimerSetup();
             StateSetup();
             playerMovement = new PlayerMovement(this);
-            animController.Animator = animator;
+            
         }
 
      
